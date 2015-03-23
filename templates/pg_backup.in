@@ -22,9 +22,16 @@ while [ $# -gt 0 ]; do
         esac
 done
 
-CONFIG_FILE_PATH="${buildout:directory}/pg_backup.config"
-source CONFIG_FILE_PATH
+CONFIG_DIR=${buildout:directory}
+CONFIG_FILE_PATH="$CONFIG_DIR/pg_backup.config"
+
  
+if [ ! -r $CONFIG_FILE_PATH ] ; then
+        echo "Could not load config file from $CONFIG_FILE_PATH" 1>&2
+        exit 1
+fi
+ 
+source "$CONFIG_FILE_PATH" 
  
 ###########################
 #### PRE-BACKUP CHECKS ####
